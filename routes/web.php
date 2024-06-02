@@ -16,6 +16,7 @@ Route::get('/shop', [ShopController::class , 'index'])->name('shop');
 Route::get('/product/{slug}', [ShopController::class , 'productDetails'])->name('productDetails');
 Route::get('/cart', [CartController::class , 'index'])->name('cart');
 Route::post('/cart/store', [CartController::class , 'addToCart'])->name('cart.store');
+Route::put('/cart/update', [CartController::class , 'updateQuantity'])->name('cart.update');
 Route::get('/cart/ds', [CartController::class , 'emptyCart'])->name('cart.ds');
 
 Route::get('/dashboard', function () {

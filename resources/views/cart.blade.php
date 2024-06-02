@@ -90,8 +90,8 @@
                             <td>
                                 <div class="qty-box">
                                     <div class="input-group">
-                                        <input type="number" name="quantity"
-                                            data-rowid="ba02b0dddb000b25445168300c65386d"
+                                        <input type="number" name="quantity" 
+                                            data-rowid="{{$item->rowId}}" onchange="updateQuantity(this)"
                                             class="form-control input-number" value="{{$item->qty}}">
                                     </div>
                                 </div>
@@ -178,8 +178,36 @@
         @else
         <div class="col-md-12 text-center">
             <h2>No Items in your cart</h2>
+            <div class="col-12 mt-md-5 mt-4">
+                    <div class="col-sm-5 col-7">
+                        <div class="left-side-button float-start">
+                            <a href="{{route('shop')}}" class="btn btn-solid-default btn fw-bold mb-0 ms-0">
+                                <i class="fas fa-arrow-left"></i> Continue Shopping</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         @endif
     </div>
 </section>
+<form id="updataQty" action="{{route('cart.update')}}" method="post">
+    @csrf
+    @method('put')
+    <input type="hidden" id="rowId" name="rowId">
+    <input type="hidden" id="quantity" name="quantity">
+</form>
 @endsection
+@push('scripts')
+    <script>
+
+        function updateQuantity(data){
+
+            $("#rowId").val($(data).data('rowid'));
+            $('#quantity').val($(data).val());
+            $('#updataQty').submit();
+       
+        }
+        
+    </script>
+@endpush

@@ -25,4 +25,10 @@ class CartController extends Controller
 
         return redirect()->back();
     }
+    public function updateQuantity(Request $request){
+        
+        Cart::instance('cart')->update($request->rowId , $request->quantity);
+
+        return redirect()->route('cart');
+    }
 }

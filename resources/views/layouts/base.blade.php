@@ -118,7 +118,7 @@
                             <div class="menu-left">
                                 <div class="brand-logo">
                                     <a href="index.htm">
-                                        <img src="assets/images/logo.png" class="h-logo img-fluid blur-up lazyload"
+                                        <img src="{{asset('assets/images/logo.png')}}" class="h-logo img-fluid blur-up lazyload"
                                             alt="logo">
                                     </a>
                                 </div>
