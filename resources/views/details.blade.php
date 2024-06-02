@@ -8,20 +8,7 @@
 
 </style>
 @endpush
-@push('scripts')
-    <script>
 
-        function addQuantityToCart(){
-
-        var qty = document.getElementById('qty');
-        var counter = document.getElementById('quantity').value;
-        qty.value = counter ;
-        event.preventDefault();document.getElementById('addtocart').submit();
-        
-        }
-        
-    </script>
-@endpush
 @section('content')
 <section class="breadcrumb-section section-b-space" style="padding-top:20px;padding-bottom:20px;">
     <ul class="circles">
@@ -909,3 +896,17 @@
 </section>
 <!-- product section end -->
 @endsection
+@push('scripts')
+    <script>
+
+        function addQuantityToCart(){
+
+        var qty = document.getElementById('qty');
+        var counter = document.getElementById('quantity').value;
+        qty.value = counter ;
+        event.preventDefault();document.getElementById('addtocart').submit();
+        
+        }
+        
+    </script>
+@endpush
