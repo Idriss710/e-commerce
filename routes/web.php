@@ -17,7 +17,8 @@ Route::get('/product/{slug}', [ShopController::class , 'productDetails'])->name(
 Route::get('/cart', [CartController::class , 'index'])->name('cart');
 Route::post('/cart/store', [CartController::class , 'addToCart'])->name('cart.store');
 Route::put('/cart/update', [CartController::class , 'updateQuantity'])->name('cart.update');
-Route::get('/cart/ds', [CartController::class , 'emptyCart'])->name('cart.ds');
+Route::delete('/cart/remove', [CartController::class , 'removeItem'])->name('cart.remove');
+Route::delete('/cart/clear', [CartController::class , 'clearCart'])->name('cart.clear');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

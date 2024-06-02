@@ -20,15 +20,18 @@ class CartController extends Controller
 
         return redirect()->back()->with('message','Success! Item has been Added successfully ');
     }
-    public function emptyCart(){
-        Cart::instance('cart')->destroy();
-
-        return redirect()->back();
-    }
+    
     public function updateQuantity(Request $request){
-        
         Cart::instance('cart')->update($request->rowId , $request->quantity);
-
         return redirect()->route('cart');
+    }
+    public function removeItem(Request $request){
+
+        Cart::instance('cart')->remove($request->rowId);
+        return redirect()->route('cart');
+    }
+    public function clearCart(){
+        Cart::instance('cart')->destroy();
+        return redirect()->back();
     }
 }
