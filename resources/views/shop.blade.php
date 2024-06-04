@@ -405,11 +405,11 @@
                                 <div class="page-view-filter">
                                     <div class="dropdown select-featured">
                                         <select class="form-select" name="orderby" id="orderby">
-                                            <option value="-1" selected="">Default</option>
-                                            <option value="1">Date, New To Old</option>
-                                            <option value="2">Date, Old To New</option>
-                                            <option value="3">Price, Low To High</option>
-                                            <option value="4">Price, High To Low</option>
+                                            <option  value="-1" {{$order == -1 ?'selected':''}}>Default</option>
+                                            <option value="1"{{$order == 1 ?'selected':''}}>Date, New To Old</option>
+                                            <option value="2"{{$order == 2 ?'selected':''}}>Date, Old To New</option>
+                                            <option value="3"{{$order == 3 ?'selected':''}}>Price, Low To High</option>
+                                            <option value="4"{{$order == 4 ?'selected':''}}>Price, High To Low</option>
                                         </select>
                                     </div>
                                 </div>
@@ -603,6 +603,7 @@
 <form id="frmFilter" action="{{route('shop')}}" method="get">
 <input type="hidden" id="page" name="page" value="{{$page}}">
 <input type="hidden" id="size" name="size" value="{{$size}}">
+<input type="hidden" id="order" name="order" value="{{$order}}">
 </form>
 @endsection
 @push('scripts')
@@ -610,6 +611,10 @@
         $('#pagesize').on('change',function(){
             $('#size').val($('#pagesize option:selected').val());
             $('#frmFilter').submit();
-        })
+        });
+        $('#orderby').on('change',function(){
+            $('#order').val($('#orderby option:selected').val());
+            $('#frmFilter').submit();
+        });
     </script>
 @endpush
