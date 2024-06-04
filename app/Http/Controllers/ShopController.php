@@ -8,11 +8,16 @@ use App\Models\Product;
 
 class ShopController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
 
-        $prducts = Product::orderBy('created_at','DESC')->paginate(10);
-
-        return view('shop',['products'=>$prducts]);
+        $page = $request->query('page');
+        $size = $request->query('size');
+        if(!$page)
+            $page = 1 ;
+        if(!$size)
+            $size = 12 ;
+        $prducts = Product::orderBy('created_at','DESC')->paginate($size);
+        return view('shop',['products'=>$prducts , 'page'=>$page , 'size'=>$size]);
     }
     public function productDetails($slug){
 
