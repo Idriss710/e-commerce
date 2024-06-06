@@ -477,12 +477,12 @@
 </section>
 <!-- Subscribe Section End -->
 <form id="frmFilter" action="{{route('shop')}}" method="get">
-<input type="hidden" id="page" name="page" value="{{$page}}">
-<input type="hidden" id="size" name="size" value="{{$size}}">
-<input type="hidden" id="order" name="order" value="{{$order}}">
-<input type="hidden" id="brands" name="brands" value="{{$q_brands}}">
-<input type="hidden" id="categories" name="categories" value="{{$q_categories}}">
-<input type="hidden" id="prange" name="prange" value="">
+<input type="hidden" id="page" name="page" value="{{$page}}"/>
+<input type="hidden" id="size" name="size" value="{{$size}}"/>
+<input type="hidden" id="order" name="order" value="{{$order}}"/>
+<input type="hidden" id="brands" name="brands" value="{{$q_brands}}"/>
+<input type="hidden" id="categories" name="categories" value="{{$q_categories}}"/>
+<input type="hidden" id="prange" name="prange" value=""/>
 </form>
 @endsection
 @push('scripts')
