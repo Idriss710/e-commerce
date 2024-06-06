@@ -60,7 +60,7 @@ class ShopController extends Controller
                 $query->whereIn('category_id',explode(',',$q_categories))->orWhereRaw("'".$q_categories."'=''");
             })
             ->whereBetween('reqular_price',array($from,$to))
-            ->orderBy("created_at","DESC")->orderBy($o_column,$o_order)->paginate($size);
+            ->orderBy($o_column,$o_order)->paginate($size);
         return view('shop',['products'=>$prducts , 'page'=>$page , 'size'=>$size, 'order'=>$order , 'brands'=>$brands,'q_brands'=>$q_brands,'categories'=>$categories,'q_categories'=>$q_categories,'from'=>$from,'to'=>$to]);
     }
     public function productDetails($slug){
