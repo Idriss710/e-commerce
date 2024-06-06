@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Brand;
+use App\Models\Category;
 
 
 class ShopController extends Controller
@@ -45,12 +46,16 @@ class ShopController extends Controller
             break;
         }
         $brands = Brand::orderBy('name','ASC')->get();
+        $categories = Category::orderBy('name','ASC')->get();
         $q_brands = $request->query('brands');
+        $q_categories = $request->query('categories');
         $prducts = Product::where(function($query) use($q_brands){
                 $query->whereIn('brand_id',explode(',',$q_brands))->orWhereRaw("'".$q_brands."'=''");
+            })->where(function($query) use($q_categories){
+                $query->whereIn('category_id',explode(',',$q_categories))->orWhereRaw("'".$q_categories."'=''");
             })
             ->orderBy($o_column,$o_order)->paginate($size);
-        return view('shop',['products'=>$prducts , 'page'=>$page , 'size'=>$size, 'order'=>$order , 'brands'=>$brands,'q_brands'=>$q_brands]);
+        return view('shop',['products'=>$prducts , 'page'=>$page , 'size'=>$size, 'order'=>$order , 'brands'=>$brands,'q_brands'=>$q_brands,'categories'=>$categories,'q_categories'=>$q_categories]);
     }
     public function productDetails($slug){
 
