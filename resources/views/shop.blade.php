@@ -482,17 +482,33 @@
 <input type="hidden" id="order" name="order" value="{{$order}}">
 <input type="hidden" id="brands" name="brands" value="{{$q_brands}}">
 <input type="hidden" id="categories" name="categories" value="{{$q_categories}}">
+<input type="hidden" id="prange" name="prange" value="">
 </form>
 @endsection
 @push('scripts')
     <script>
-        $('#pagesize').on('change',function(){
+        $(function(){
+            $('#pagesize').on('change',function(){
             $('#size').val($('#pagesize option:selected').val());
             $('#frmFilter').submit();
-        });
-        $('#orderby').on('change',function(){
-            $('#order').val($('#orderby option:selected').val());
-            $('#frmFilter').submit();
+            });
+            $('#orderby').on('change',function(){
+                $('#order').val($('#orderby option:selected').val());
+                $('#frmFilter').submit();
+            });
+
+            var $rang = $('.js-range-slider');
+            instance = $rang.data('ionRangeSlider');
+            instance.update({
+                from:{{$from}},
+                to:{{$to}}
+            });
+            
+            $('#prange').on('change',function(){
+                setTimeout(()=>{
+                    $('#frmFilter').submit();
+                },1000);
+            });
         });
         function filterProductsByBrands(brand){
             var brands ="";
@@ -506,10 +522,9 @@
             });
             $('#brands').val(brands);
             $('#frmFilter').submit();
-            
-
+        
         }
-        function filterProductsByCategories(categories){
+        function filterProductsByCategories(category){
             var categories ="";
             $('input[name="categories"]:checked').each(function(){  // any space in this line can make different =>  input[name="categories"]:checked
                 if(categories == "" ){
