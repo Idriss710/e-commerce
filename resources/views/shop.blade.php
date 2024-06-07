@@ -365,7 +365,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)" class="wishlist">
+                                            <a href="javascript:void(0)" onclick="addProductToWishlist({{$product->id}},'{{$product->name}}',1,{{$product->reqular_price}})" class="wishlist" >
                                                 <i data-feather="heart"></i>
                                             </a>
                                         </li>
@@ -535,9 +535,33 @@
             }
             });
             $('#categories').val(categories);
-            $('#frmFilter').submit();
+            $('#frmFiltefr').submit();
             
 
+        }
+        function addProductToWishlist(id,name,quantity,price)
+        {
+            $.ajax({
+                type:'POST',
+                url:"{{route('wishlist.store')}}",
+                data:{
+                    "_token":"{{ csrf_token() }}",
+                    id:id,
+                    name:name,
+                    quantity:quantity,
+                    price:price
+                },
+                success:function(data){
+                    if (data.status == 200) 
+                    {
+                        $.notify({
+                            icon:"fa fa-check",
+                            title:"Success!",
+                            message:"Product Successfully added to your WishList"
+                        });
+                    }
+                }
+            });
         }
     </script>
 @endpush

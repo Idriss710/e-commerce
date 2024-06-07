@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -19,6 +20,8 @@ Route::post('/cart/store', [CartController::class , 'addToCart'])->name('cart.st
 Route::put('/cart/update', [CartController::class , 'updateQuantity'])->name('cart.update');
 Route::delete('/cart/remove', [CartController::class , 'removeItem'])->name('cart.remove');
 Route::delete('/cart/clear', [CartController::class , 'clearCart'])->name('cart.clear');
+
+Route::post('/wishlist/add',[WishlistController::class , 'addProductToWishlist'])->name('wishlist.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
