@@ -15,5 +15,8 @@ class WishlistController extends Controller
         $items = Cart::instance('wishlist')->content();
         return view('wishlist',['items'=>$items]); 
     }
-
+    public function removeItemFromWishlist(Request $request){
+        Cart::instance('wishlist')->remove($request->rowId);
+        return redirect()->route('wishlist.list');
+    }
 }

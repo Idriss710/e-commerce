@@ -96,7 +96,7 @@
                                     <a href="javascript:void(0)" class="icon">
                                         <i class="fas fa-shopping-cart"></i>
                                     </a>
-                                    <a href="javascript:void(0)" class="icon">
+                                    <a href="javascript:void(0)" class="icon" onclick="removeItemFormWishlist('{{$item->rowId}}')">
                                         <i class="fas fa-times"></i>
                                     </a>
                                 </td>
@@ -110,5 +110,20 @@
     </div>
 </section>
 <!-- Cart Section End -->   
-
+<section>
+    <form id="frmWishlist" action="{{route('wishlist.remove.item')}}" method="post">
+        @csrf
+        @method('delete')
+        <input type="hidden" id="rowId" name="rowId">
+    </form>
+</section>
 @endsection
+@push('scripts')
+    <script>
+        function removeItemFormWishlist(rowId){
+            $('#rowId').val(rowId);
+            $('#frmWishlist').submit();
+
+        }
+    </script>
+@endpush
