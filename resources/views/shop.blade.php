@@ -554,11 +554,24 @@
                 success:function(data){
                     if (data.status == 200) 
                     {
+                        getCartWishlistCount();
                         $.notify({
                             icon:"fa fa-check",
                             title:"Success!",
                             message:"Product Successfully added to your WishList"
                         });
+                    }
+                }
+            });
+        }
+        function getCartWishlistCount(){
+            $.ajax({
+                type:'GET',
+                url:'{{route("shop.cart.wishlist.count")}}',
+                success:function(data){
+                    if (data.status == 200) {
+                        $('#wishlist-count').html(data.wishlistCount);
+                        $('#cart-count').html(data.cartCount);
                     }
                 }
             });

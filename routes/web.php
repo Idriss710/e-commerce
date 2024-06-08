@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [AppController::class , 'index'])->name('index');
 Route::get('/shop', [ShopController::class , 'index'])->name('shop');
 Route::get('/product/{slug}', [ShopController::class , 'productDetails'])->name('productDetails');
+Route::get('/cart-wishlist-count',[ShopController::class , 'getCartAndWishlistCount'])->name('shop.cart.wishlist.count');
+
 Route::get('/cart', [CartController::class , 'index'])->name('cart');
 Route::post('/cart/store', [CartController::class , 'addToCart'])->name('cart.store');
 Route::put('/cart/update', [CartController::class , 'updateQuantity'])->name('cart.update');
