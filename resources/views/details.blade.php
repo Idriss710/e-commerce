@@ -214,14 +214,7 @@
                                         id="cartEffect" class="btn btn-solid hover-solid btn-animation">
                                         <i class="fa fa-shopping-cart"></i>
                                         <span>Add To Cart</span>
-                                        <form id="addtocart" method="post"
-                                            action="{{route('cart.store')}}">
-                                            @csrf
-                                             <input type="hidden" name="id" value="{{$product->id}}">
-                                            
-                                            <input type="hidden" name="quantity" id="qty" value="">
-                                            
-                                        </form>
+                                        
                                     </a>
 
 
@@ -895,16 +888,29 @@
     </div>
 </section>
 <!-- product section end -->
+<section>
+    <form id="addtocart" action="{{route('cart.store')}}" method="post" >
+    @csrf
+     <input type="hidden" id="id" name="id" value="{{$product->id}}">
+    <input type="hidden" name="quantity" id="qty" value="">
+</form>
+
+</section>
 @endsection
 @push('scripts')
     <script>
 
         function addQuantityToCart(){
 
-        var qty = document.getElementById('qty');
-        var counter = document.getElementById('quantity').value;
-        qty.value = counter ;
-        event.preventDefault();document.getElementById('addtocart').submit();
+        // var qty = document.getElementById('qty');
+        // var counter = document.getElementById('quantity').value;
+        // qty.value = counter ;
+        // event.preventDefault();document.getElementById('addtocart').submit();
+
+        // or 
+        
+        $('#qty').val($('#quantity').val());
+        $('#addtocart').submit();
         
         }
         
