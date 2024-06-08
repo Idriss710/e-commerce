@@ -11,4 +11,9 @@ class WishlistController extends Controller
         Cart::instance("wishlist")->add($request->id,$request->name,1,$request->price)->associate('App\Models\Product');
         return response()->json(['status'=>200,'message'=>'Success added Product to your WishList']);
     }
+    public function getWishlistedProducts(){
+        $items = Cart::instance('wishlist')->content();
+        return view('wishlist',['items'=>$items]); 
+    }
+
 }
