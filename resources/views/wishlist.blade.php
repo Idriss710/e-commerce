@@ -93,7 +93,7 @@
                                 </td>
                                 <td>
 
-                                    <a href="javascript:void(0)" class="icon">
+                                    <a href="javascript:void(0)" class="icon" onclick="addItemFromWishlistToCart('{{$item->model->id}}')">
                                         <i class="fas fa-shopping-cart"></i>
                                     </a>
                                     <a href="javascript:void(0)" class="icon" onclick="removeItemFormWishlist('{{$item->rowId}}')">
@@ -116,6 +116,11 @@
         @method('delete')
         <input type="hidden" id="rowId" name="rowId">
     </form>
+    <form id="frmAddItemToCart" action="{{route('cart.store')}}" method="post">
+        @csrf
+        <input type="hidden" id="id" name="id" value="">
+        <input type="hidden" id="qty" name="quantity" value="1">
+    </form>
 </section>
 @endsection
 @push('scripts')
@@ -123,6 +128,11 @@
         function removeItemFormWishlist(rowId){
             $('#rowId').val(rowId);
             $('#frmWishlist').submit();
+
+        }
+        function addItemFromWishlistToCart(data){
+            $('#id').val(data);
+            $('#frmAddItemToCart').submit();
 
         }
     </script>
