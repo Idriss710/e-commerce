@@ -117,7 +117,7 @@
             <div class="row">
                 <div class="col-sm-7 col-5 order-1">
                     <div class="left-side-button text-end d-flex d-block justify-content-end">
-                        <a href="javascript:void(0)" onclick="clearCart('{{$item->rowId}}')"
+                        <a href="javascript:void(0)" onclick="clearCart()"
                             class="text-decoration-underline theme-color d-block text-capitalize">clear
                             all items</a>
                     </div>
@@ -205,7 +205,6 @@
 <form id="clearID" action="{{route('cart.clear')}}" method="post">
     @csrf
     @method('delete')
-    <input type="hidden" id="rowId_C" name="rowId">
 </form>
 
 @endsection
@@ -223,8 +222,7 @@
             $("#rowId_D").val(rowId);
             $('#deleteItem').submit();
         }
-        function clearCart(rowId){
-            $('#rowId_C').val(rowId);
+        function clearCart(){
             $('#clearID').submit();
         }
         
