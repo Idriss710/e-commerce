@@ -42,6 +42,9 @@
 <section class="wish-list-section section-b-space">
     <div class="container">
         <div class="row">
+            @if (Cart::instance('wishlist')->content()->count() > 0 )
+                
+            
             <div class="col-sm-12 table-responsive">
                 <table class="table cart-table wishlist-table">
                     <thead>
@@ -106,6 +109,37 @@
                     </tbody>
                 </table>
             </div>
+            <div class="col-12 mt-md-5 mt-4">
+                <div class="row">
+                    <div class="col-sm-7 col-5 order-1">
+                        <div class="left-side-button text-end d-flex d-block justify-content-end">
+                            <a href="javascript:void(0)" onclick="clearWishlist()"
+                                class="text-decoration-underline theme-color d-block text-capitalize">clear
+                                all items</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-5 col-7">
+                        <div class="left-side-button float-start">
+                            <a href="{{route('shop')}}" class="btn btn-solid-default btn fw-bold mb-0 ms-0">
+                                <i class="fas fa-arrow-left"></i> Continue Shopping</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @else
+            <div class="col-md-12 text-center">
+                <h2>No Items in your Wishlist</h2>
+                <div class="col-12 mt-md-5 mt-4">
+                        <div class="col-sm-5 col-7">
+                            <div class="left-side-button float-start">
+                                <a href="" class="btn btn-solid-default btn fw-bold mb-0 ms-0">
+                                    <i class="fas fa-arrow-left"></i> Continue Shopping</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 </section>
@@ -121,6 +155,11 @@
         <input type="hidden" id="id" name="id" value="">
         <input type="hidden" id="qty" name="quantity" value="1">
     </form>
+    <form id="frmClearWishlist" action="{{route('wishlist.clear')}}" method="post">
+        @csrf
+        @method('delete')
+        <input type="hidden" id="clearId" name="clearId" value="">
+    </form>
 </section>
 @endsection
 @push('scripts')
@@ -134,6 +173,9 @@
             $('#id').val(data);
             $('#frmAddItemToCart').submit();
 
+        }
+        function clearWishlist(){
+            $('#frmClearWishlist').submit();
         }
     </script>
 @endpush

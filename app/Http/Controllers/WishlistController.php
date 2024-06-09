@@ -19,4 +19,8 @@ class WishlistController extends Controller
         Cart::instance('wishlist')->remove($request->rowId);
         return redirect()->route('wishlist.list');
     }
+    public function clearWishlist(){
+        Cart::instance('wishlist')->destroy();
+        return redirect()->back();
+    }
 }
