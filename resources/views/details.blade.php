@@ -893,6 +893,7 @@
     @csrf
      <input type="hidden" id="id" name="id" value="{{$product->id}}">
     <input type="hidden" name="quantity" id="qty" value="">
+    <input type="hidden" name="userID" id="userID" value="">
 </form>
 
 </section>
@@ -909,6 +910,7 @@
 
         // or 
         
+
         $('#qty').val($('#quantity').val());
         $('#addtocart').submit();
         

@@ -141,7 +141,7 @@
                                             <li><a href="{{route('index')}}" class="nav-link menu-title">Home</a></li>
                                             <li><a href="{{route('shop')}}" class="nav-link menu-title">Shop</a></li>
                                             <li><a href="{{route('cart')}}" class="nav-link menu-title">Cart</a></li>
-                                            <li><a href="about-us.html" class="nav-link menu-title">About Us</a></li>
+                                            <li><a href="{{route('checkout')}}" class="nav-link menu-title">Checkout</a></li>
                                             <li><a href="contact-us.html" class="nav-link menu-title">Contact Us</a>
                                             </li>
                                             <li><a href="blog.html" class="nav-link menu-title">Blog</a></li>

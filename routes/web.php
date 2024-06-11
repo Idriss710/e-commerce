@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\CheckoutController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -27,6 +28,8 @@ Route::post('/wishlist/add',[WishlistController::class , 'addProductToWishlist']
 Route::get('/wishlist',[WishlistController::class , 'getWishlistedProducts'])->name('wishlist.list');
 Route::delete('/wishlist/remove',[WishlistController::class , 'removeItemFromWishlist'])->name('wishlist.remove.item');
 Route::delete('/wishlist/clear',[WishlistController::class , 'clearWishlist'])->name('wishlist.clear');
+
+Route::get('checkout',[CheckoutController::class, 'index'])->name('checkout');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
