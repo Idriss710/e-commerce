@@ -46,7 +46,8 @@
                         <tr class="table-head">
                             <th scope="col">image</th>
                             <th scope="col">product name</th>
-                            <th scope="col">price</th>
+                            <th scope="col">sale price</th>
+                            <th scope="col">reqular price</th>
                             <th scope="col">quantity</th>
                             <th scope="col">total</th>
                             <th scope="col">action</th>
@@ -56,13 +57,13 @@
                     @foreach ($cartItems as $item)
                         <tr>
                             <td>
-                                <a href="../product/details.html">
-                                    <img src="{{asset('assets/images/fashion/product/front')}}/{{$item->model->image}}" class="blur-up lazyloaded"
+                                <a href="{{route('productDetails',['slug'=>$item->product->slug])}}">
+                                    <img src="{{asset('assets/images/fashion/product/front')}}/{{$item->product->image}}" class="blur-up lazyloaded"
                                         alt="">
                                 </a>
                             </td>
                             <td>
-                                <a href="../product/details.html">{{$item->model->name}}</a>
+                                <a href="../product/details.html">{{$item->product->name}}</a>
                                 <div class="mobile-cart-content row">
                                     <div class="col">
                                         <div class="qty-box">
@@ -73,7 +74,7 @@
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <h2>${{$item->price}}</h2>
+                                        <h2>$90</h2>
                                     </div>
                                     <div class="col">
                                         <h2 class="td-color">
@@ -85,22 +86,33 @@
                                 </div>
                             </td>
                             <td>
-                                <h2>${{$item->price}}</h2>
+                                <h2>${{$item->product->sale_price}}</h2>
+                            </td>
+                            <td>
+                                <h2>${{$item->product->reqular_price}}</h2>
                             </td>
                             <td>
                                 <div class="qty-box">
                                     <div class="input-group">
                                         <input type="number" name="quantity" 
-                                            data-rowid="{{$item->rowId}}" onchange="updateQuantity(this)"
-                                            class="form-control input-number" value="{{$item->qty}}">
+                                            data-rowid="{{$item->product_id}}" onchange="updateQuantity(this)"
+                                            class="form-control input-number" value="{{$item->quantity}}">
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <h2 class="td-color">{{$item->subtotal()}}</h2>
+                                <h2 class="td-color">
+                                    @if ($item->product->sale_price == null or $item->product->sale_price == 0)
+                                        {{$item->product->reqular_price * $item->quantity}}
+                                        @php $total_price += $item->product->reqular_price * $item->quantity @endphp
+                                        @else
+                                        {{$item->product->sale_price * $item->quantity}}
+                                        @php $total_price += $item->product->sale_price * $item->quantity @endphp
+                                    @endif 
+                                 </h2>
                             </td>
                             <td>
-                                <a href="javascript:void(0)" onclick="removeItem('{{$item->rowId}}')"  >
+                                <a href="javascript:void(0)" onclick="removeItem('{{$item->product_id}}')"  >
                                     <i class="fas fa-times"></i>
                                 </a>
                             </td>
@@ -133,22 +145,11 @@
 
         <div class="cart-checkout-section">
             <div class="row g-4">
-                <div class="col-lg-4 col-sm-6">
-                    <div class="promo-section">
-                        <form class="row g-3">
-                            <div class="col-7">
-                                <input type="text" class="form-control" id="number" placeholder="Coupon Code">
-                            </div>
-                            <div class="col-5">
-                                <button class="btn btn-solid-default rounded btn">Apply Coupon</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                
 
                 <div class="col-lg-4 col-sm-6 ">
                     <div class="checkout-button">
-                        <a href="checkout" class="btn btn-solid-default btn fw-bold">
+                        <a href="{{route('order.index')}}" class="btn btn-solid-default btn fw-bold">
                             Check Out <i class="fas fa-arrow-right ms-1"></i></a>
                     </div>
                 </div>
@@ -159,13 +160,13 @@
                             <div class="total-details">
                                 <div class="top-details">
                                     <h3>Cart Totals</h3>
-                                    <h6>Sub Total <span>${{Cart::instance('cart')->subtotal()}}</span></h6>
-                                    <h6>Taxs <span>${{Cart::instance('cart')->tax()}}</span></h6>
+                                    <h6>Sub Total <span>${{$total_price}}</span></h6>
+                                    <h6>Taxs <span>$0</span></h6>
 
-                                    <h6>Total <span>${{Cart::instance('cart')->total()}}</span></h6>
+                                    <h6>Total <span>${{$total_price}}</span></h6>
                                 </div>
                                 <div class="bottom-details">
-                                    <a href="checkout">Process Checkout</a>
+                                    <a href="{{route('order.index')}}">Process Checkout</a>
                                 </div>
                             </div>
                         </div>
@@ -191,10 +192,10 @@
         @endif
     </div>
 </section>
-<form id="updataQty" action="{{route('cart.update')}}" method="post">
+<form id="updataCartQty" action="{{route('cart.update')}}" method="post">
     @csrf
     @method('put')
-    <input type="hidden" id="rowId" name="rowId">
+    <input type="hidden" id="id" name="id">
     <input type="hidden" id="quantity" name="quantity">
 </form>
 <form id="deleteItem" action="{{route('cart.remove')}}" method="post">
@@ -213,9 +214,9 @@
 
         function updateQuantity(data){
 
-            $("#rowId").val($(data).data('rowid'));
+            $("#id").val($(data).data('rowid'));
             $('#quantity').val($(data).val());
-            $('#updataQty').submit();
+            $('#updataCartQty').submit();
         }
         function removeItem(rowId){
             

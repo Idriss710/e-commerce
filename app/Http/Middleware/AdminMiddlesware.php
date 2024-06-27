@@ -19,7 +19,7 @@ class AdminMiddlesware
     {   
         if(Auth::User()->user_type == 'admin'){
             session()->flush();
-            return redirect()->route('admin.index');
+            return redirect()->route('adminn.index');
         }else{
             return redirect()->back();
         }

@@ -6,12 +6,33 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\CartDB;
+
+use Illuminate\Support\Facades\Auth;
+
 use Cart;
 
 
 class ShopController extends Controller
 {
     public function index(Request $request){
+        // get cart count
+        if (Auth::check())
+        {
+            $allQuantity = CartDB::where('user_id',Auth::id())->get('quantity');
+            $cartCount = 0;
+            if ($allQuantity)
+             {
+                foreach ($allQuantity as $q)
+                {
+                    $cartCount += $q->quantity ;
+                }
+             }
+            session()->put('cartCount', $cartCount);   
+        }else 
+        {
+            session()->put('cartCount', 0);
+        }
 
         $page = $request->query('page');
         $size = $request->query('size');
@@ -48,8 +69,8 @@ class ShopController extends Controller
         }
         $brands = Brand::orderBy('name','ASC')->get();
         $categories = Category::orderBy('name','ASC')->get();
-        $q_brands = $request->query('brands');
-        $q_categories = $request->query('categories');
+        $q_brands = $request->query('brands');                  // the same like   $request->brands 
+        $q_categories = $request->query('categories');          // the same like   $request->categories 
         $prange = $request->query('prange');
         if (!$prange)
             $prange = '0,500';
@@ -70,7 +91,12 @@ class ShopController extends Controller
 
         $rproducts = Product::where('slug','!=',$slug)->inRandomOrder('id')->get()->take(7);
 
-        return view('details',['product'=>$product,'rproducts'=>$rproducts]);
+        $productSize = Product::where('slug',$slug)->value('size');
+        
+        
+        
+
+        return view('details',['product'=>$product,'rproducts'=>$rproducts,'productSize'=>$productSize]);
     }
     public function getCartAndWishlistCount(){
         $cartCount = Cart::instance('cart')->content()->count();

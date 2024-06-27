@@ -168,22 +168,17 @@
 
                                     <div class="size-box">
                                         <ul>
-                                            <li>
-                                                <a href="javascript:void(0)">s</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">m</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">l</a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)">xl</a>
-                                            </li>
+                                            @if ($productSize == null ) 
+                                                
+                                            @else
+                                                <li>
+                                                    <a href="javascript:void(0)">{{$productSize}}</a>
+                                                </li>
+                                            @endif 
                                         </ul>
                                     </div>
 
-                                    <h6 class="product-title product-title-2 d-block">{{$product->quantity}} </h6>
+                                    <h6 class="product-title product-title-2 d-block">QTY : {{$product->quantity}} </h6>
 
                                     <div class="qty-box">
                                         <div class="input-group">
@@ -206,7 +201,7 @@
                                 </div>
 
                                 <div class="product-buttons">
-                                    <a href="javascript:void(0)" class="btn btn-solid">
+                                    <a href="javascript:void(0)"  onclick="addProductToWishlist({{$product->id}})" class="btn btn-solid">
                                         <i class="fa fa-bookmark fz-16 me-2"></i>
                                         <span>Wishlist</span>
                                     </a>
@@ -221,70 +216,16 @@
 
                                 </div>
 
-                                <ul class="product-count shipping-order">
-                                    <li>
-                                        <img src="../assets/images/gif/truck.png" class="img-fluid blur-up lazyload"
-                                            alt="image">
-                                        <span class="lang">Free shipping for orders above $500 USD</span>
-                                    </li>
-                                </ul>
-
+                               
                                 <div class="mt-2 mt-md-3 border-product">
                                     <h6 class="product-title hurry-title d-block">Quantity is <span>{{$product->quantity}}</span>{{$product->stock_status}} </h6>
                                     <div class="progress">
                                         <div class="progress-bar" role="progressbar" style="width: 78%"></div>
                                     </div>
-                                    <div class="font-light timer-5">
-                                        <h5>Order in the next to get</h5>
-                                        <ul class="timer1">
-                                            <li class="counter">
-                                                <h5 id="days">&#9251;</h5> Days :
-                                            </li>
-                                            <li class="counter">
-                                                <h5 id="hours">&#9251;</h5> Hour :
-                                            </li>
-                                            <li class="counter">
-                                                <h5 id="minutes">&#9251;</h5> Min :
-                                            </li>
-                                            <li class="counter">
-                                                <h5 id="seconds">&#9251;</h5> Sec
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    
                                 </div>
 
-                                <div class="border-product">
-                                    <h6 class="product-title d-block">share it</h6>
-                                    <div class="product-icon">
-                                        <ul class="product-social">
-                                            <li>
-                                                <a href="https://www.facebook.com/">
-                                                    <i class="fab fa-facebook-f"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://www.google.com/">
-                                                    <i class="fab fa-google-plus-g"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://twitter.com/">
-                                                    <i class="fab fa-twitter"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://www.instagram.com/">
-                                                    <i class="fab fa-instagram"></i>
-                                                </a>
-                                            </li>
-                                            <li class="pe-0">
-                                                <a href="https://www.google.com/">
-                                                    <i class="fas fa-rss"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -892,8 +833,13 @@
     <form id="addtocart" action="{{route('cart.store')}}" method="post" >
     @csrf
      <input type="hidden" id="id" name="id" value="{{$product->id}}">
-    <input type="hidden" name="quantity" id="qty" value="">
+    <input type="hidden" name="newQuantity" id="qty" value="">
     <input type="hidden" name="userID" id="userID" value="">
+</form>
+<form id="frmWishlistStore" action="{{route('wishlist.store')}}" method="post">
+    @csrf
+    @method('post')
+    <input type="hidden" id="idd" name="idd" value="">
 </form>
 
 </section>
@@ -914,6 +860,30 @@
         $('#qty').val($('#quantity').val());
         $('#addtocart').submit();
         
+        }
+        function addProductToWishlist(id)
+        {
+            $('#idd').val(id);
+            $('#frmWishlistStore').submit();
+            // $.ajax({
+            //     type:'POST',
+            //     url:"{{route('wishlist.store')}}",
+            //     data:{
+            //         "_token":"{{ csrf_token() }}",
+            //         id:id
+            //     },
+            //     success:function(data){
+            //         if (data.status == 200) 
+            //         {
+            //             wishlistCount();
+            //             $.notify({
+            //                 icon:"fa fa-check",
+            //                 title:"Success!",
+            //                 message:data.message
+            //             });
+            //         }
+            //     }
+            // });
         }
         
     </script>

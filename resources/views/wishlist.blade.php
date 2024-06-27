@@ -42,7 +42,7 @@
 <section class="wish-list-section section-b-space">
     <div class="container">
         <div class="row">
-            @if (Cart::instance('wishlist')->content()->count() > 0 )
+            @if ($items->count() > 0 )
                 
             
             <div class="col-sm-12 table-responsive">
@@ -60,19 +60,19 @@
                         @foreach ($items as $item)
                             <tr>
                                 <td>
-                                    <a href="{{route('productDetails',['slug'=>$item->model->slug])}}">
-                                        <img src="{{asset('assets/images/fashion/product/front')}}/{{$item->model->image}}"
-                                            class=" blur-up lazyload" alt="{{$item->model->image}}">
+                                    <a href="{{route('productDetails',['slug'=>$item->product->slug])}}">
+                                        <img src="{{asset('assets/images/fashion/product/front')}}/{{$item->product->image}}"
+                                            class=" blur-up lazyload" alt="{{$item->product->image}}">
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="{{route('productDetails',['slug'=>$item->model->slug])}}" class="font-light">{{$item->model->name}}</a>
+                                    <a href="{{route('productDetails',['slug'=>$item->product->slug])}}" class="font-light">{{$item->product->name}}</a>
                                     <div class="mobile-cart-content row">
                                         <div class="col">
-                                            <p>{{$item->model->stock_status}}</p>
+                                            <p>{{$item->product->stock_status}}</p>
                                         </div>
                                         <div class="col">
-                                            <p class="fw-bold">$@if ($item->model->sale_price) {{$item->model->sale_price}} @else {{$item->model->raqular_price}}  @endif </p>
+                                            <p class="fw-bold">$@if ($item->product->sale_price !== null) {{$item->product->sale_price}} @else {{$item->product->raqular_price}}  @endif </p>
                                         </div>
                                         <div class="col">
                                             <h2 class="td-color">
@@ -89,21 +89,28 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <p class="fw-bold">$@if ($item->model->sale_price) {{$item->model->sale_price}} @else {{$item->model->raqular_price}}  @endif </p>
+                                    <p class="fw-bold">$@if ($item->product->sale_price !== null) {{$item->product->sale_price}} @else {{$item->product->raqular_price}}  @endif </p>
                                 </td>
                                 <td>
-                                    <p>{{$item->model->stock_status}}</p>
+                                    <p>{{$item->product->stock_status}}</p>
                                 </td>
                                 <td>
 
-                                    <a href="javascript:void(0)" class="icon" onclick="addItemFromWishlistToCart('{{$item->model->id}}')">
+                                    <a href="javascript:void(0)" class="icon" onclick="addItemFromWishlistToCart({{$item->product->id}})">
                                         <i class="fas fa-shopping-cart"></i>
                                     </a>
-                                    <a href="javascript:void(0)" class="icon" onclick="removeItemFormWishlist('{{$item->rowId}}')">
+                                    
+                                    <a href="{{route('wishlist.remove.item',$item->product->id)}}" class="icon" >
                                         <i class="fas fa-times"></i>
                                     </a>
                                 </td>
                             </tr>  
+                            <form id="addtocart" action="{{route('cart.store')}}" method="post" >
+                                @csrf
+                                 <input type="hidden" id="id" name="id" value="">
+                                <input type="hidden" name="newQuantity" id="qty" value="">
+                                <input type="hidden" name="userID" id="userID" value="">
+                            </form>
                         @endforeach
                                                  
                     </tbody>
@@ -132,7 +139,7 @@
                 <div class="col-12 mt-md-5 mt-4">
                         <div class="col-sm-5 col-7">
                             <div class="left-side-button float-start">
-                                <a href="" class="btn btn-solid-default btn fw-bold mb-0 ms-0">
+                                <a href="{{route('shop')}}" class="btn btn-solid-default btn fw-bold mb-0 ms-0">
                                     <i class="fas fa-arrow-left"></i> Continue Shopping</a>
                             </div>
                         </div>
@@ -145,11 +152,11 @@
 </section>
 <!-- Cart Section End -->   
 <section>
-    <form id="frmWishlist" action="{{route('wishlist.remove.item')}}" method="post">
+    {{-- <form id="frmWishlist" action="{{route('wishlist.remove.item')}}" method="post">
         @csrf
         @method('delete')
-        <input type="hidden" id="rowId" name="rowId">
-    </form>
+        <input type="hidden" id="id" name="id" value="">
+    </form> --}}
     <form id="frmAddItemToCart" action="{{route('cart.store')}}" method="post">
         @csrf
         <input type="hidden" id="id" name="id" value="">
@@ -164,15 +171,15 @@
 @endsection
 @push('scripts')
     <script>
-        function removeItemFormWishlist(rowId){
-            $('#rowId').val(rowId);
-            $('#frmWishlist').submit();
+        // function removeItemFormWishlist(Id){
+        //     $('#id').val(id);
+        //     $('#frmWishlist').submit();
 
-        }
-        function addItemFromWishlistToCart(data){
-            $('#id').val(data);
-            $('#frmAddItemToCart').submit();
-
+        // }
+        function addItemFromWishlistToCart(id){
+            $('#qty').val(1);
+            $('#id').val(id);
+            $('#addtocart').submit();
         }
         function clearWishlist(){
             $('#frmClearWishlist').submit();

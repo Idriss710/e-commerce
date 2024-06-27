@@ -8,53 +8,112 @@ use App\Models\CartDB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 ////// add this line to use cart package 
-use Cart ; 
+use Cart ;
+
+use Session;
 
 class CartController extends Controller
 {
     public function index(){
-        $cartItems = Cart::instance('cart')->content();
-        return view('cart',['cartItems'=>$cartItems]);
+        // get cart count
+        if (Auth::check())
+        {
+            $allQuantity = CartDB::where('user_id',Auth::id())->get('quantity');
+            $cartCount = 0;
+            if ($allQuantity)
+             {
+                foreach ($allQuantity as $q)
+                {
+                    $cartCount += $q->quantity ;
+                }
+             }
+            session()->put('cartCount', $cartCount);   
+        }else 
+        {
+            session()->put('cartCount', 0);
+        }
+        //get cart itmes releated to user
+        $cartItems = CartDB::where('user_id',Auth::id())->get();
+        $total_price = 0 ;
+        return view('cart',['cartItems'=>$cartItems,'total_price'=>$total_price]);
     }
     public function addToCart(Request $request){
         if (!Auth::check()) 
             return redirect()->route('login');
 
         $userID = Auth::id();
+        $is_already_found = 0 ;
+        $products = CartDB::all('user_id','product_id');
+        foreach ( $products as $pro)
+        {
+            if($pro->user_id == $userID && $pro->product_id == $request->id) 
+            {
+                $is_already_found = 1 ; 
+                break; 
+            }
+        }
         
-        $product = Product::find($request->id);
-        $price = $product->sale_price ? $product->sale_price :  $product->reqular_price ;
-        Cart::instance('cart')->add($product->id, $product->name,$request->quantity,$price)->associate('App\Models\Product');
+            if($is_already_found == 1)
+            {
+                //update quantity if product already found 
+                $quantity = CartDB::where('user_id',$userID)->where('product_id',$request->id)->value('quantity');
+                $quantity += $request->newQuantity;
+                $affected = DB::table('cart_d_b_s')
+                ->where('user_id',$userID)
+                ->where('product_id',$request->id)
+                ->update(['quantity' => $quantity]);
 
-        if ($product->id) {
-        //update quantity if product already found 
-            $quantity = DB::table('cart_d_b_s')->where('product_id',$product->id)->value('quantity');
-            $quantity += $request->quantity;
-            $affected = DB::table('cart_d_b_s')
-              ->where('product_id',$product->id)
-              ->update(['quantity' => $quantity]);
             }else{
-        //add item to database cart tabel
-        $cartDB = CartDB::create([
-            'user_id'=>$userID,
-            'product_id'=>$product->id,
-            'quantity'=>$request->quantity
-        ]);
-                }   
+           // add item to cart database tabel
+                $cartDB = CartDB::create([
+                'user_id'=>$userID,
+                'product_id'=>$request->id,
+                'quantity'=>$request->newQuantity,
+                 ]); 
+            }
+        
+        // get cart count
+        if (Auth::check())
+        {
+            $allQuantity = CartDB::where('user_id',Auth::id())->get('quantity');
+            $cartCount = 0;
+            if ($allQuantity)
+             {
+                foreach ($allQuantity as $q)
+                {
+                    $cartCount += $q->quantity ;
+                }
+             }
+            session()->put('cartCount', $cartCount);   
+        }else 
+        {
+            session()->put('cartCount', 0);
+        }
+           
+                       
         return redirect()->back()->with('message','Success! Item has been Added successfully ');
     }
     
     public function updateQuantity(Request $request){
-        Cart::instance('cart')->update($request->rowId , $request->quantity);
+        //update Cart quantity 
+        $userID = Auth::id();
+        $quantity = $request->quantity;
+        $affected = DB::table('cart_d_b_s')
+        ->where('user_id',$userID)
+        ->where('product_id',$request->id)
+        ->update(['quantity' => $quantity]);
         return redirect()->route('cart');
     }
     public function removeItem(Request $request){
 
-        Cart::instance('cart')->remove($request->rowId);
-        return redirect()->route('cart');
+        $pro = CartDB::where('user_id','=',Auth::id())->where('product_id','=',$request->rowId)->first();
+            $pro->delete();
+        
+        return redirect()->back();
+        
     }
     public function clearCart(){
-        Cart::instance('cart')->destroy();
+        CartDB::query()->delete();
         return redirect()->back();
     }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->decimal('reqular_price');
             $table->decimal('sale_price')->nullable();
+            $table->string('size')->nullable();
             $table->string('SKU');
             $table->enum('stock_status',["instock","outofstock"]);
             $table->boolean('featured')->default(false);

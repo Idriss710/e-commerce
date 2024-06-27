@@ -1,4 +1,4 @@
-@extends('layouts.base');
+@extends('layouts.base')
 @section('content')
 <section class="breadcrumb-section section-b-space" style="padding-top:20px;padding-bottom:20px;">
     <ul class="circles">
@@ -36,19 +36,24 @@
     <div class="container">
         <div class="row g-4">
             <div class="col-lg-8">
-                <form class="needs-validation" method="POST" action="">
-                    <input type="hidden" name="_token" value="CVH6XgdFhoUV6OBdiTIlT2bviIidpb0qD6U1Vf68">
+                <form class="needs-validation" method="POST" action="{{route('order.store')}}">
+                    @csrf
+                    @method('post')
+                    <input type="hidden" id="subtotal" name="subtotal" value="{{$subtotal}}">
                     <div id="billingAddress" class="row g-4">
                         <h3 class="mb-3 theme-color">Basic Details</h3>
                         <div class="col-md-6">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name"
+                            <input type="text" class="form-control" id="name" name="full_name"
                                 placeholder="Enter Full Name">
                         </div>
                         <div class="col-md-6">
                             <label for="phone" class="form-label">Phone</label>
                             <input type="text" class="form-control" id="phone" name="phone"
                                 placeholder="Enter Phone Number">
+                                @error('phone'){{$message}}
+                                    
+                                @enderror
                         </div>
                         <div class="col-md-6">
                             <label for="locality" class="form-label">Locality</label>
@@ -120,24 +125,28 @@
                             <label for="zip" class="form-label">Zip</label>
                             <input type="text" class="form-control" id="zip" name="zip" placeholder="123456">
                         </div>
-
-                        <div class="col-md-12 form-check ps-0 mt-3 custome-form-check"
-                            style="padding-left:15px !important;">
-                            <input class="checkbox_animated check-it" type="checkbox" name="sameAsBilling"
-                                id="sameAsBilling">
-                            <label class="form-check-label checkout-label" for="sameAsBilling">Shipping address is
-                                same as Billing Address</label>
+                        <div class="card">
+                            <h5 class="card-header">Delivery Options</h5>
+                          
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="delivery_option" id="flexRadioDefault1" value="door delivery" checked>
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                Door Delivery
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="delivery_option" id="flexRadioDefault2" value="pickup station" >
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                Pickup Station 
+                                </label>
+                            </div>
                         </div>
+
                     </div>
 
                     
 
-                    <div class="form-check ps-0 mt-3 custome-form-check">
-                        <input class="checkbox_animated check-it" type="checkbox" name="saveAddress"
-                            id="saveAddress">
-                        <label class="form-check-label checkout-label" for="saveAddress">Save this information for
-                            next time</label>
-                    </div>
+                    
 
                     <hr class="my-lg-5 my-4">
 
@@ -145,17 +154,17 @@
 
                     <div class="d-block my-3">
                         <div class="form-check custome-radio-box">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" checked=""
-                                id="cod">
+                            <input class="form-check-input" type="radio" name="payment_method" checked=""
+                                id="cod" value="Cash">
                             <label class="form-check-label" for="cod">COD</label>
                         </div>
                         <div class="form-check custome-radio-box">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="debit">
+                            <input class="form-check-input" type="radio" name="payment_method" id="debit" value="Debit card">
                             <label class="form-check-label" for="debit">Debit card</label>
                         </div>
 
                         <div class="form-check custome-radio-box">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="paypal">
+                            <input class="form-check-input" type="radio" name="payment_method" id="paypal" value="paypal">
                             <label class="form-check-label" for="paypal">PayPal</label>
                         </div>
                     </div>
@@ -185,8 +194,9 @@
 
             <div class="col-lg-4">
                 <div class="your-cart-box">
-                    <h3 class="mb-3 d-flex text-capitalize">Your cart<span
-                            class="badge bg-theme new-badge rounded-pill ms-auto bg-dark">0</span>
+                    <h3 class="mb-3 d-flex text-capitalize">Your cart<span class="badge bg-theme new-badge rounded-pill ms-auto bg-dark">
+                        @if (session('cartCount') == null) 0 @else {{session('cartCount')}}  @endif
+                        </span>
                     </h3>
                     <ul class="list-group mb-3">
 
@@ -201,7 +211,7 @@
                         </li>
                         <li class="list-group-item d-flex lh-condensed justify-content-between">
                             <span class="fw-bold">Total (USD)</span>
-                            <strong>$0.00</strong>
+                            <strong>${{$subtotal}}</strong>
                         </li>
                     </ul>
 

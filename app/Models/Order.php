@@ -9,10 +9,26 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $fillable=['user_id',
+    'tracking_no',
+    'subtotal',
+    'discount',
+    'tax',
+    'full_name',
+    'phone',
+    'locality',
+    'address',
+    'city',
+    'state',
+    'country',
+    'landmark',
+    'zip',
+    'payment_mode'];
+
     public function user(){
         return $this->belongsTo(User::class);
     }
-    public function orderItems(){
+    public function orderItem(){
         return $this->hasMany(OrderItem::class);
     }
     public function shipping(){

@@ -141,10 +141,10 @@
                                             <li><a href="{{route('index')}}" class="nav-link menu-title">Home</a></li>
                                             <li><a href="{{route('shop')}}" class="nav-link menu-title">Shop</a></li>
                                             <li><a href="{{route('cart')}}" class="nav-link menu-title">Cart</a></li>
-                                            <li><a href="{{route('checkout')}}" class="nav-link menu-title">Checkout</a></li>
+                                            <li><a href="{{route('order.index')}}" class="nav-link menu-title">Checkout</a></li>
                                             <li><a href="contact-us.html" class="nav-link menu-title">Contact Us</a>
                                             </li>
-                                            <li><a href="blog.html" class="nav-link menu-title">Blog</a></li>
+                                            <li><a href="{{route('orderItems.index')}}" class="nav-link menu-title">My Orders</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -161,7 +161,7 @@
                                             <a href="{{route('wishlist.list')}}">
                                                 <i data-feather="heart"></i>
                                                 <span id="wishlist-count" class="label label-theme rounded-pill">
-                                                    {{Cart::instance('wishlist')->content()->count()}}
+                                                    @if (session('wishlistCount') == null) 0 @else {{session('wishlistCount')}}  @endif
                                                 </span>
                                             </a>
                                         </div>
@@ -171,7 +171,7 @@
                                             <a href="{{route('cart')}}">
                                                 <i data-feather="shopping-cart"></i>
                                                 <span id="cart-count" class="label label-theme rounded-pill">
-                                                    {{Cart::instance('cart')->Count()}}
+                                                    @if (session('cartCount') == null) 0 @else {{session('cartCount')}}  @endif
                                                 </span>
                                             </a>
                                         </div>
@@ -192,7 +192,7 @@
                                                         </li>
                                                         @else
                                                         <li>
-                                                            <a href="{{route('user.index')}}" class="d-block">Dashboard</a>
+                                                            <a href="{{route('user.dashboard')}}" class="d-block">Dashboard</a>
                                                         </li>    
                                                         @endif
                                                         <li>

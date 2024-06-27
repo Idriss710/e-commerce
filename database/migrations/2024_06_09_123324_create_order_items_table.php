@@ -17,8 +17,9 @@ return new class extends Migration
             $table->bigInteger('order_id')->unsigned();
             $table->decimal('price');
             $table->integer('quantity');
+            $table->integer('fees')->nullable();
             $table->longText('options')->nullable();
-            $table->boolean('rstatus')->default(false);
+            $table->enum('status',['ordered','shipped','pending','delivered','canceled'])->default('ordered');
             $table->timestamps();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');

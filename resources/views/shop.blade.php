@@ -84,67 +84,7 @@
                             </div>
                         </div>
 
-                        <div class="accordion-item category-color">
-                            <h2 class="accordion-header" id="headingThree">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseThree">
-                                    Color
-                                </button>
-                            </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse show"
-                                aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <ul class="category-list">
-                                        <li>
-                                            <a href="javascript:void(0)">
-                                                <i class="fas fa-check"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)">
-                                                <i class="fas fa-check"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)">
-                                                <i class="fas fa-check"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)">
-                                                <i class="fas fa-check"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)">
-                                                <i class="fas fa-check"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)">
-                                                <i class="fas fa-check"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)">
-                                                <i class="fas fa-check"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)">
-                                                <i class="fas fa-check"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)">
-                                                <i class="fas fa-check"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
+                       
                         <div class="accordion-item category-price">
                             <h2 class="accordion-header" id="headingFour">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -160,41 +100,7 @@
                             </div>
                         </div>
 
-                        <div class="accordion-item category-price">
-                            <h2 class="accordion-header" id="headingFive">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseFive">
-                                    Size
-                                </button>
-                            </h2>
-
-                            <div id="collapseFive" class="accordion-collapse collapse show"
-                                aria-labelledby="headingFive" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <ul class="category-list">
-                                        <li>
-                                            <a href="javascript:void(0)">xs</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)">sm</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)">md</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)">lg</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)">xl</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)">xxl</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
+                        
                         <div class="accordion-item category-rating">
                             <h2 class="accordion-header" id="headingOne">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -221,45 +127,7 @@
                             </div>
                         </div>
 
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingSeven">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseSeven">
-                                    Discount Range
-                                </button>
-                            </h2>
-                            <div id="collapseSeven" class="accordion-collapse collapse show"
-                                aria-labelledby="headingSeven" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <ul class="category-list">
-                                        <li>
-                                            <div class="form-check ps-0 custome-form-check">
-                                                <input class="checkbox_animated check-it" type="checkbox"
-                                                    id="flexCheckDefault19">
-                                                <label class="form-check-label" for="flexCheckDefault19">5% and
-                                                    above</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check ps-0 custome-form-check">
-                                                <input class="checkbox_animated check-it" type="checkbox"
-                                                    id="flexCheckDefault20">
-                                                <label class="form-check-label" for="flexCheckDefault20">10% and
-                                                    above</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check ps-0 custome-form-check">
-                                                <input class="checkbox_animated check-it" type="checkbox"
-                                                    id="flexCheckDefault21">
-                                                <label class="form-check-label" for="flexCheckDefault21">20% and
-                                                    above</label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -355,19 +223,26 @@
                                 <div class="cart-wrap">
                                     <ul>
                                             <li>
-                                            <a href="javascript:void(0)" class="addtocart-btn">
+                                            <a href="javascript:void(0)" onclick="addQuantityToCart({{$product->id}})"  class="addtocart-btn">
                                                 <i data-feather="shopping-cart"></i>
                                             </a>
+                                            <form id="addtocart" action="{{route('cart.store')}}" method="post" >
+                                                @csrf
+                                                 <input type="hidden" id="id" name="id" value="">
+                                                <input type="hidden" name="newQuantity" id="qty" value="">
+                                                <input type="hidden" name="userID" id="userID" value="">
+                                            </form>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">
+                                            <a href="{{route("productDetails",['slug'=>$product->slug])}}">
                                                 <i data-feather="eye"></i>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)" onclick="addProductToWishlist({{$product->id}},'{{$product->name}}',1,{{$product->reqular_price}})" class="wishlist" >
+                                            <a href="javascript:void(0)" onclick="addProductToWishlist({{$product->id}})" class="wishlist" >
                                                 <i data-feather="heart"></i>
                                             </a>
+                                            
                                         </li>
                                     </ul>
                                 </div>
@@ -483,7 +358,16 @@
 <input type="hidden" id="brands" name="brands" value="{{$q_brands}}"/>
 <input type="hidden" id="categories" name="categories" value="{{$q_categories}}"/>
 <input type="hidden" id="prange" name="prange" value=""/>
+<input type="hidden" id="productsize" name="productsize" value=""/>
 </form>
+<form id="frmWishlistStore" action="{{route('wishlist.store')}}" method="post">
+    @csrf
+    @method('post')
+    <input type="hidden" id="idd" name="idd" value="">
+</form>
+
+
+
 @endsection
 @push('scripts')
     <script>
@@ -527,7 +411,7 @@
         function filterProductsByCategories(category){
             var categories ="";
             $('input[name="categories"]:checked').each(function(){  // any space in this line can make different =>  input[name="categories"]:checked
-                if(categories == "" ){
+                if(category == "" ){
                 categories += this.value;
             }
             else{
@@ -535,39 +419,38 @@
             }
             });
             $('#categories').val(categories);
-            $('#frmFiltefr').submit();
+            $('#frmFilter').submit();
             
 
         }
-        function addProductToWishlist(id,name,quantity,price)
+        function addProductToWishlist(id)
         {
-            $.ajax({
-                type:'POST',
-                url:"{{route('wishlist.store')}}",
-                data:{
-                    "_token":"{{ csrf_token() }}",
-                    id:id,
-                    name:name,
-                    quantity:quantity,
-                    price:price
-                },
-                success:function(data){
-                    if (data.status == 200) 
-                    {
-                        getCartWishlistCount();
-                        $.notify({
-                            icon:"fa fa-check",
-                            title:"Success!",
-                            message:"Product Successfully added to your WishList"
-                        });
-                    }
-                }
-            });
+            $('#idd').val(id);
+            $('#frmWishlistStore').submit();
+            // $.ajax({
+            //     type:'POST',
+            //     url:"{{route('wishlist.store')}}",
+            //     data:{
+            //         "_token":"{{ csrf_token() }}",
+            //         id:id
+            //     },
+            //     success:function(data){
+            //         if (data.status == 200) 
+            //         {
+            //             wishlistCount();
+            //             $.notify({
+            //                 icon:"fa fa-check",
+            //                 title:"Success!",
+            //                 message:data.message
+            //             });
+            //         }
+            //     }
+            // });
         }
-        function getCartWishlistCount(){
+        function wishlistCount(){
             $.ajax({
                 type:'GET',
-                url:'{{route("shop.cart.wishlist.count")}}',
+                url:'{{route("wishlist.count")}}',
                 success:function(data){
                     if (data.status == 200) {
                         $('#wishlist-count').html(data.wishlistCount);
@@ -575,6 +458,21 @@
                     }
                 }
             });
+        }
+        function addQuantityToCart(id){
+
+        // var qty = document.getElementById('qty');
+        // var counter = document.getElementById('quantity').value;
+        // qty.value = counter ;
+        // event.preventDefault();document.getElementById('addtocart').submit();
+
+        // or 
+
+
+        $('#qty').val(1);
+        $('#id').val(id);
+        $('#addtocart').submit();
+
         }
     </script>
 @endpush
